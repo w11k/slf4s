@@ -33,7 +33,6 @@ class LoggingSpec extends Specification with Mockito {
   }
 
   "Calling Logger.info(msg, t)" should {
-    //val slf4jLogger = mock[SLF4JLogger]
     val logger = new Logger {
       override protected val logger = slf4jLogger
     }
@@ -43,7 +42,6 @@ class LoggingSpec extends Specification with Mockito {
     }
 
     "throw an IAE when called t with a null message and msg as a String" in {
-
       logger.info(msg,null) must throwA[IllegalArgumentException]
     }
 
@@ -84,7 +82,7 @@ class LoggingSpec extends Specification with Mockito {
 
   "Calling Logger.debug(msg ,t)" should {
     val logger = new Logger {
-        override protected val logger = slf4jLogger
+      override protected val logger = slf4jLogger
     }
 
     "throw an IAE when called msg with a null message and t as Throwable" in {
