@@ -53,3 +53,4 @@ trait Logger {
 
   protected val logger: SLF4JLogger
 }
+
