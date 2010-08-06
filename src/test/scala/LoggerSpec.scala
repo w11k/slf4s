@@ -166,19 +166,63 @@ class LoggerSpec extends Specification with Mockito {
     }
 
     "throw an IAE when called with a null Throwable" in {
-      logger.debug(Msg,null) must throwA[IllegalArgumentException]
+      logger.debug(Msg, null) must throwA[IllegalArgumentException]
     }
 
     "not call SLF4JLogger.debug when debug not enabled" in {
       slf4jLogger.isDebugEnabled returns false
       logger.debug(Msg, t)
-      there was no(slf4jLogger).debug(Msg,t)
+      there was no(slf4jLogger).debug(Msg, t)
     }
 
     "call SLF4JLogger.debug when debug enabled" in {
       slf4jLogger.isDebugEnabled returns true
       logger.debug(Msg, t)
       there was one(slf4jLogger).debug(Msg, t)
+    }
+  }
+
+  "Calling Logger.trace(msg)" should {
+    val (logger, slf4jLogger) = loggers
+
+    "throw an IAE when called with a null message" in {
+      logger trace null must throwA[IllegalArgumentException]
+    }
+
+    "not call SLF4JLogger.trace when trace not enabled" in {
+      slf4jLogger.isTraceEnabled returns false
+      logger trace Msg
+      there was no(slf4jLogger).trace(Msg)
+    }
+
+    "call SLF4JLogger.trace when trace enabled" in {
+      slf4jLogger.isTraceEnabled returns true
+      logger trace Msg
+      there was one(slf4jLogger).trace(Msg)
+    }
+  }
+
+  "Calling Logger.trace(msg, t)" should {
+    val (logger, slf4jLogger) = loggers
+
+    "throw an IAE when called with a null message" in {
+      logger.trace(null, t) must throwA[IllegalArgumentException]
+    }
+
+    "throw an IAE when called with a null Throwable" in {
+      logger.trace(Msg, null) must throwA[IllegalArgumentException]
+    }
+
+    "not call SLF4JLogger.trace when trace not enabled" in {
+      slf4jLogger.isTraceEnabled returns false
+      logger.trace(Msg, t)
+      there was no(slf4jLogger).trace(Msg, t)
+    }
+
+    "call SLF4JLogger.trace when trace enabled" in {
+      slf4jLogger.isTraceEnabled returns true
+      logger.trace(Msg, t)
+      there was one(slf4jLogger).trace(Msg, t)
     }
   }
 
