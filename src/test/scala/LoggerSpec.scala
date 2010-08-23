@@ -6,6 +6,8 @@ import org.specs.mock.Mockito
 
 class LoggerSpec extends Specification with Mockito {
 
+  // TODO Tests for object Logger: Preconditions as well as correctly named loggers (use mocks)!
+
   "Calling Logger.error(msg)" should {
     val (logger, slf4jLogger) = loggers
 
