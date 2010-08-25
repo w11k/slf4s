@@ -8,26 +8,24 @@ import org.specs.mock.Mockito
 class LoggerSpec extends Specification with Mockito {
 
   "Creating a Logger using Logger(clazz: Class[_])" should {
-    val logger = Logger(clazz)
 
-    "return a Logger namend as clazz" in {
-      logger.name mustEqual clazz.getName
+    "return a Logger namend as Clazz" in {
+      Logger(Clazz).name mustEqual Clazz.getName
     }
 
-    "throw an IAE when creating a Logger with an empty class" in {
-      Logger(emptyClazz) must throwA[IllegalArgumentException]
+    "throw an IAE when creating a Logger with a null class" in {
+      Logger(null: Class[_]) must throwA[IllegalArgumentException]
     }
   }
 
   "Creating a Logger using Logger(loggerName: String)" should {
-    val logger = Logger(loggerName)
 
-    "return a Logger namend as loggerName" in {
-      logger.name mustEqual loggerName
+    "return a Logger namend as LoggerName" in {
+      Logger(LoggerName).name mustEqual LoggerName
     }
 
-    "throw an IAE when creating a Logger with an empty String" in {
-      Logger(emptyloggerName) must throwA [IllegalArgumentException]
+    "throw an IAE when creating a Logger with a null String" in {
+      Logger(null: String) must throwA [IllegalArgumentException]
     }
   }
 
@@ -263,12 +261,7 @@ class LoggerSpec extends Specification with Mockito {
     (logger, mockSLF4JLogger)
   }
 
-  private lazy val loggerName = "LoggerName"
+  private lazy val LoggerName = "LoggerName"
 
-  private lazy val clazz = this.getClass
-
-  private lazy val emptyloggerName: String = null
-
-  private lazy val emptyClazz: Class[_] = null
- 
+  private lazy val Clazz = this.getClass
 }
