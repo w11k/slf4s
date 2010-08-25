@@ -4,9 +4,32 @@ import org.slf4j.{ Logger => SLF4JLogger }
 import org.specs.Specification
 import org.specs.mock.Mockito
 
+
 class LoggerSpec extends Specification with Mockito {
 
-  // TODO Tests for object Logger: Preconditions as well as correctly named loggers (use mocks)!
+  "Creating a Logger using Logger(clazz: Class[_])" should {
+    val logger = Logger(clazz)
+
+    "return a Logger namend as clazz" in {
+      logger.name mustEqual clazz.getName
+    }
+
+    "throw an IAE when creating a Logger with an empty class" in {
+      Logger(emptyClazz) must throwA[IllegalArgumentException]
+    }
+  }
+
+  "Creating a Logger using Logger(loggerName: String)" should {
+    val logger = Logger(loggerName)
+
+    "return a Logger namend as loggerName" in {
+      logger.name mustEqual loggerName
+    }
+
+    "throw an IAE when creating a Logger with an empty String" in {
+      Logger(emptyloggerName) must throwA [IllegalArgumentException]
+    }
+  }
 
   "Calling Logger.error(msg)" should {
     val (logger, slf4jLogger) = loggers
@@ -239,4 +262,13 @@ class LoggerSpec extends Specification with Mockito {
     }
     (logger, mockSLF4JLogger)
   }
+
+  private lazy val loggerName = "LoggerName"
+
+  private lazy val clazz = this.getClass
+
+  private lazy val emptyloggerName: String = null
+
+  private lazy val emptyClazz: Class[_] = null
+ 
 }
