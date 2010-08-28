@@ -4,7 +4,6 @@ import org.slf4j.{ Logger => SLF4JLogger }
 import org.specs.Specification
 import org.specs.mock.Mockito
 
-
 class LoggerSpec extends Specification with Mockito {
 
   "Creating a Logger using Logger(clazz: Class[_])" should {
@@ -19,11 +18,11 @@ class LoggerSpec extends Specification with Mockito {
     }
   }
 
-  "Creating a Logger using Logger(loggerName: String)" should {
+  "Creating a Logger using Logger(name: String)" should {
 
     "return a Logger namend like the given name" in {
-      val LoggerName = "MyLogger"
-      Logger(LoggerName).name mustEqual LoggerName
+      val name = "MyLogger"
+      Logger(name).name mustEqual name
     }
 
     "throw an IAE when creating a Logger with a null String" in {

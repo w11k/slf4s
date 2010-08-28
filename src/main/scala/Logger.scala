@@ -13,20 +13,16 @@ object Logger {
    */
   def apply(clazz: Class[_]) = {
     require(clazz != null, "clazz must not be null!")
-    new Logger {
-      override val slf4jLogger = LoggerFactory getLogger clazz
-    }
+    new DefaultLogger(LoggerFactory getLogger clazz)
   }
 
   /**
    * Creates a Logger with the given name.
-   * @param The Logger's name. Must not be null!
+   * @param name The Logger's name. Must not be null!
    */
-  def apply(loggerName: String) = {
-    require(loggerName != null, "loggerName must not be null!")
-    new Logger {
-      override val slf4jLogger = LoggerFactory getLogger loggerName
-    }
+  def apply(name: String) = {
+    require(name != null, "loggerName must not be null!")
+    new DefaultLogger(LoggerFactory getLogger name)
   }
 }
 
@@ -145,3 +141,5 @@ trait Logger {
    */
   protected val slf4jLogger: SLF4JLogger
 }
+
+private[slf4s] class DefaultLogger(override protected val slf4jLogger: SLF4JLogger) extends Logger
