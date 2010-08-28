@@ -9,8 +9,9 @@ class LoggerSpec extends Specification with Mockito {
 
   "Creating a Logger using Logger(clazz: Class[_])" should {
 
-    "return a Logger namend as Clazz" in {
-      Logger(Clazz).name mustEqual Clazz.getName
+    "return a Logger namend like the given class" in {
+      val clazz = classOf[String]
+      Logger(clazz).name mustEqual clazz.getName
     }
 
     "throw an IAE when creating a Logger with a null class" in {
@@ -20,7 +21,8 @@ class LoggerSpec extends Specification with Mockito {
 
   "Creating a Logger using Logger(loggerName: String)" should {
 
-    "return a Logger namend as LoggerName" in {
+    "return a Logger namend like the given name" in {
+      val LoggerName = "MyLogger"
       Logger(LoggerName).name mustEqual LoggerName
     }
 
@@ -260,8 +262,4 @@ class LoggerSpec extends Specification with Mockito {
     }
     (logger, mockSLF4JLogger)
   }
-
-  private lazy val LoggerName = "LoggerName"
-
-  private lazy val Clazz = this.getClass
 }
