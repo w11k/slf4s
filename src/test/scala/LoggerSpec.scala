@@ -6,6 +6,30 @@ import org.specs.mock.Mockito
 
 class LoggerSpec extends Specification with Mockito {
 
+  "Creating a Logger using Logger(clazz: Class[_])" should {
+
+    "return a Logger namend like the given class" in {
+      val clazz = classOf[String]
+      Logger(clazz).name mustEqual clazz.getName
+    }
+
+    "throw an IAE when creating a Logger with a null class" in {
+      Logger(null: Class[_]) must throwA[IllegalArgumentException]
+    }
+  }
+
+  "Creating a Logger using Logger(name: String)" should {
+
+    "return a Logger namend like the given name" in {
+      val name = "MyLogger"
+      Logger(name).name mustEqual name
+    }
+
+    "throw an IAE when creating a Logger with a null String" in {
+      Logger(null: String) must throwA [IllegalArgumentException]
+    }
+  }
+
   "Calling Logger.error(msg)" should {
     val (logger, slf4jLogger) = loggers
 
