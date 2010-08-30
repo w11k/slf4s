@@ -22,5 +22,11 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   // OSGi stuff
   // ===================================================================================================================
 
-  
+  import ExecutionEnvironment._
+  override def bndBundleVendor = Some("WeigleWilczek")
+  override def bndBundleLicense =
+    Some("Eclipse Public License v1.0 (http://www.eclipse.org/legal/epl-v10.html)")
+  override def bndExecutionEnvironment = Set(Java5, Java6)
+  override def bndExportPackage =
+    "com.weiglewilczek.slf4s;version=\"%s\"".format(projectVersion.value) :: Nil
 }
