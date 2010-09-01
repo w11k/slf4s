@@ -23,7 +23,19 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   // Test
   val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test" withSources
   val mockito = "org.mockito" % "mockito-all" % "1.8.4" % "test" withSources
-  val slf4jSimple = "org.slf4j" % "slf4j-simple" % Slf4jVersion
+  val slf4jSimple = "org.slf4j" % "slf4j-simple" % Slf4jVersion % "test"
+
+  // ===================================================================================================================
+  // Publishing
+  // ===================================================================================================================
+
+  override def managedStyle = ManagedStyle.Maven
+  Credentials(Path.userHome / ".ivy2" / ".credentials", log)
+//  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
+  lazy val publishTo = Resolver.file("Local Test Repository", Path fileProperty "java.io.tmpdir" asFile)
+  override def packageSrcJar = defaultJarPath("-sources.jar")
+  lazy val sourceArtifact = Artifact.sources(artifactID)
+  override def packageToPublishActions = super.packageToPublishActions ++ Seq(packageSrc)
 
   // ===================================================================================================================
   // OSGi stuff
