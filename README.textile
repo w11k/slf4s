@@ -1,0 +1,19 @@
+SLF4S (Simple Logging Facade for Scala) is a thin "Scala":http://www.scala-lang.org wrapper around SLF4J offering the following features:
+
+* _Logging_ trait to easily mix in a _Logger_ initialized with the class name
+* By-name parameters on log methods for better performance
+* Implicit conversion from SLF4J _Logger_
+* OSGi compliant
+
+SLF4S is open source software licensed under the "Eclipse Public License v1.0":http://www.eclipse.org/legal/epl-v10.html. Just use it!
+
+h2. Using SLF4S
+
+Mix in _Logging_ trait:
+<pre><code>class MyClazz extends SomeClazz with Logging</code></pre>
+
+Or create a _Logger_ explicitly:
+<pre><code>val logger = Logger("SomeSpecialName")</code></pre>
+
+When logging something, the argument will only be evaluated if the according log level is enabled:
+<pre><code>logger info "Created customer with id %s.".format(id)</code></pre>
