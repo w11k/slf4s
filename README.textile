@@ -7,6 +7,22 @@ SLF4S (Simple Logging Facade for Scala) is a thin "Scala":http://www.scala-lang.
 
 SLF4S is open source software licensed under the "Eclipse Public License v1.0":http://www.eclipse.org/legal/epl-v10.html. Just use it!
 
+h2. Getting SLF4S
+
+The binaries are made available in the "Scala-Tools.org Maven repository":http://scala-tools.org/repo-releases/com/weiglewilczek/scala-lang-osgi/.
+
+h3. For SBT and any Scala version (currently only 2.8.0)
+
+<pre><code>val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.0</code></pre>
+
+h3. For Maven and Scala 2.8.0
+
+<pre><code><dependency>
+  <groupId>com.weiglewilczek.slf4s</groupId>
+  <artifactId>slf4s_2.8.0</artifactId>
+  <version>1.0.0</version>
+</dependency></code></pre>
+
 h2. Using SLF4S
 
 Mix in _Logging_ trait:
