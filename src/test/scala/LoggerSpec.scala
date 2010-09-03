@@ -39,221 +39,231 @@ class LoggerSpec extends Specification with Mockito {
 
   "Calling Logger.error(msg)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger error null must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.error when error not enabled" in {
       slf4jLogger.isErrorEnabled returns false
-      logger error Msg
+      logger error msg
       there was no(slf4jLogger).error(Msg)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.error when error enabled" in {
       slf4jLogger.isErrorEnabled returns true
-      logger error Msg
+      logger error msg
       there was one(slf4jLogger).error(Msg)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.error(msg, t)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger.error(null, t) must throwA[IllegalArgumentException]
-    }
-
-    "throw and IAE when called a null Throwable" in {
-      logger.error(Msg, null) must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.error when error not enabled" in {
       slf4jLogger.isErrorEnabled returns false
-      logger.error(Msg, t)
+      logger.error(msg, t)
       there was no(slf4jLogger).error(Msg, t)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.error when error enabled" in {
       slf4jLogger.isErrorEnabled returns true
-      logger.error(Msg, t)
+      logger.error(msg, t)
       there was one(slf4jLogger).error(Msg ,t)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.warn(msg)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger warn null must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.warn when warn not enabled" in {
       slf4jLogger.isWarnEnabled returns false
-      logger warn Msg
+      logger warn msg
       there was no(slf4jLogger).warn(Msg)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.warn when warn enabled" in {
       slf4jLogger.isWarnEnabled returns true
-      logger warn Msg
+      logger warn msg
       there was one(slf4jLogger).warn(Msg)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.warn(msg, t)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger.warn(null, t) must throwA[IllegalArgumentException]
-    }
-
-    "throw an IAE when called with a null Throwable" in {
-      logger.warn(Msg, null) must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.warn when warn not enabled" in {
       slf4jLogger.isErrorEnabled returns false
-      logger.warn(Msg, t)
+      logger.warn(msg, t)
       there was no(slf4jLogger).warn(Msg, t)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.warn when warn enabled" in {
       slf4jLogger.isWarnEnabled returns true
-      logger.warn(Msg, t)
+      logger.warn(msg, t)
       there was one(slf4jLogger).warn(Msg ,t)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.info(msg)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger info null must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.info when info not enabled" in {
       slf4jLogger.isInfoEnabled returns false
-      logger info Msg
+      logger info msg
       there was no(slf4jLogger).info(Msg)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.info when info enabled" in {
       slf4jLogger.isInfoEnabled returns true
-      logger info Msg
+      logger info msg
       there was one(slf4jLogger).info(Msg)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.info(msg, t)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger.info(null, t) must throwA[IllegalArgumentException]
-    }
-
-    "throw an IAE when called with a null Throwable" in {
-      logger.info(Msg, null) must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.info when info not enabled" in {
       slf4jLogger.isInfoEnabled returns false
-      logger.info(Msg, t)
+      logger.info(msg, t)
       there was no(slf4jLogger).info(Msg, t)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.info when info enabled" in {
       slf4jLogger.isInfoEnabled returns true
-      logger.info(Msg, t)
+      logger.info(msg, t)
       there was one(slf4jLogger).info(Msg, t)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.debug(msg)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger debug null must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.debug when debug not enabled" in {
       slf4jLogger.isDebugEnabled returns false
-      logger debug Msg
+      logger debug msg
       there was no(slf4jLogger).debug(Msg)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.debug when debug enabled" in {
       slf4jLogger.isDebugEnabled returns true
-      logger debug Msg
+      logger debug msg
       there was one(slf4jLogger).debug(Msg)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.debug(msg ,t)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger.debug(null, t) must throwA[IllegalArgumentException]
-    }
-
-    "throw an IAE when called with a null Throwable" in {
-      logger.debug(Msg, null) must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.debug when debug not enabled" in {
       slf4jLogger.isDebugEnabled returns false
-      logger.debug(Msg, t)
+      logger.debug(msg, t)
       there was no(slf4jLogger).debug(Msg, t)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.debug when debug enabled" in {
       slf4jLogger.isDebugEnabled returns true
-      logger.debug(Msg, t)
+      logger.debug(msg, t)
       there was one(slf4jLogger).debug(Msg, t)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.trace(msg)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger trace null must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.trace when trace not enabled" in {
       slf4jLogger.isTraceEnabled returns false
-      logger trace Msg
+      logger trace msg
       there was no(slf4jLogger).trace(Msg)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.trace when trace enabled" in {
       slf4jLogger.isTraceEnabled returns true
-      logger trace Msg
+      logger trace msg
       there was one(slf4jLogger).trace(Msg)
+      evaluated mustBe true
     }
   }
 
   "Calling Logger.trace(msg, t)" should {
     val (logger, slf4jLogger) = loggers
-
-    "throw an IAE when called with a null message" in {
-      logger.trace(null, t) must throwA[IllegalArgumentException]
-    }
-
-    "throw an IAE when called with a null Throwable" in {
-      logger.trace(Msg, null) must throwA[IllegalArgumentException]
+    var evaluated = false
+    def msg = {
+      evaluated = true
+      Msg
     }
 
     "not call SLF4JLogger.trace when trace not enabled" in {
       slf4jLogger.isTraceEnabled returns false
-      logger.trace(Msg, t)
+      logger.trace(msg, t)
       there was no(slf4jLogger).trace(Msg, t)
+      evaluated mustBe false
     }
 
     "call SLF4JLogger.trace when trace enabled" in {
       slf4jLogger.isTraceEnabled returns true
-      logger.trace(Msg, t)
+      logger.trace(msg, t)
       there was one(slf4jLogger).trace(Msg, t)
+      evaluated mustBe true
     }
   }
 
