@@ -48,4 +48,5 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   override def bndExecutionEnvironment = Set(Java5, Java6)
   override def bndExportPackage =
     "com.weiglewilczek.slf4s;version=\"%s\"".format(projectVersion.value) :: Nil
+  override def bndVersionPolicy = Some("[$(@),$(version;=+;$(@)))")
 }
