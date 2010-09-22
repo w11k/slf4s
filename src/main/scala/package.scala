@@ -17,6 +17,7 @@ package object slf4s {
    * @param slf4jLogger The SLF4J Logger to be converted; must not be null!
    * @return A new (SLF4S) Logger
    */
+  @deprecated("Converting from SLF4J to SLF4S logger is probably more costly than possible savings through by-name params!")
   implicit def toLogger(slf4jLogger: SLF4JLogger): Logger = {
     require(slf4jLogger != null, "slf4jLogger must be not null!")
     Logger(slf4jLogger.getName)
