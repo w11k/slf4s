@@ -37,6 +37,8 @@ object Logger {
  * Thin wrapper for SLF4J making use of by-name parameters to improve performance.
  */
 trait Logger {
+  import scala.annotation.elidable
+  import scala.annotation.elidable._
 
   /**
    * The name of this Logger.
@@ -47,7 +49,7 @@ trait Logger {
    * Log a message with ERROR level.
    * @param msg The message to be logged
    */
-  def error(msg: => String) {
+   @elidable(SEVERE) def error(msg: => String) {
     if (slf4jLogger.isErrorEnabled) slf4jLogger error msg
   }
 
@@ -56,7 +58,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  def error(msg: => String, t: Throwable) {
+   @elidable(SEVERE) def error(msg: => String, t: Throwable) {
     if (slf4jLogger.isErrorEnabled) slf4jLogger.error(msg, t)
   }
 
@@ -64,7 +66,7 @@ trait Logger {
    * Log a message with WARN level.
    * @param msg The message to be logged
    */
-  def warn(msg: => String) {
+  @elidable(WARNING) def warn(msg: => String) {
     if (slf4jLogger.isWarnEnabled) slf4jLogger warn msg
   }
 
@@ -73,7 +75,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  def warn(msg: => String, t: Throwable) {
+  @elidable(WARNING) def warn(msg: => String, t: Throwable) {
     if (slf4jLogger.isWarnEnabled) slf4jLogger.warn(msg, t)
   }
 
@@ -81,7 +83,7 @@ trait Logger {
    * Log a message with INFO level.
    * @param msg The message to be logged
    */
-  def info(msg: => String) {
+  @elidable(INFO) def info(msg: => String) {
     if (slf4jLogger.isInfoEnabled) slf4jLogger info msg
   }
 
@@ -90,7 +92,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  def info(msg: => String, t: Throwable) {
+  @elidable(INFO) def info(msg: => String, t: Throwable) {
     if (slf4jLogger.isInfoEnabled) slf4jLogger.info(msg, t)
   }
 
@@ -98,7 +100,7 @@ trait Logger {
    * Log a message with DEBUG level.
    * @param msg The message to be logged
    */
-  def debug(msg: => String) {
+ @elidable(FINER) def debug(msg: => String) {
     if (slf4jLogger.isDebugEnabled) slf4jLogger debug msg
   }
 
@@ -107,7 +109,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  def debug(msg: => String, t: Throwable) {
+  @elidable(FINER) def debug(msg: => String, t: Throwable) {
     if (slf4jLogger.isDebugEnabled) slf4jLogger.debug(msg, t)
   }
 
@@ -115,7 +117,7 @@ trait Logger {
    * Log a message with TRACE level.
    * @param msg The message to be logged
    */
-  def trace(msg: => String) {
+  @elidable(FINEST) def trace(msg: => String) {
     if (slf4jLogger.isTraceEnabled) slf4jLogger trace msg
   }
 
@@ -124,7 +126,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  def trace(msg: => String, t: Throwable) {
+  @elidable(FINEST) def trace(msg: => String, t: Throwable) {
     if (slf4jLogger.isTraceEnabled) slf4jLogger.trace(msg, t)
   }
 
