@@ -10,6 +10,7 @@ import sbt._
 
 class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
 
+
   // ===================================================================================================================
   // Dependencies
   // ===================================================================================================================
@@ -50,4 +51,6 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   override def bndExportPackage =
     "com.weiglewilczek.slf4s;version=\"%s\"".format(projectVersion.value) :: Nil
   override def bndVersionPolicy = Some("[$(@),$(version;=+;$(@)))")
+
+override def compileOptions = super.compileOptions ++ compileOptions("-Xelide-below", "-1")
 }
