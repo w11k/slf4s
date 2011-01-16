@@ -1,13 +1,21 @@
-/**
- * Copyright (c) 2009-2010 WeigleWilczek and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/*
+ * Copyright 2010-2011 Weigle Wilczek GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.weiglewilczek.slf4s
 
-import org.slf4j.{ Logger => SLF4JLogger, LoggerFactory }
+import org.slf4j.{Logger => SLF4JLogger, LoggerFactory}
 
 /**
  * Factory for Loggers.
@@ -37,8 +45,6 @@ object Logger {
  * Thin wrapper for SLF4J making use of by-name parameters to improve performance.
  */
 trait Logger {
-  import scala.annotation.elidable
-  import scala.annotation.elidable._
 
   /**
    * The name of this Logger.
@@ -49,7 +55,7 @@ trait Logger {
    * Log a message with ERROR level.
    * @param msg The message to be logged
    */
-   @elidable(SEVERE) def error(msg: => String) {
+  def error(msg: => String) {
     if (slf4jLogger.isErrorEnabled) slf4jLogger error msg
   }
 
@@ -58,7 +64,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-   @elidable(SEVERE) def error(msg: => String, t: Throwable) {
+  def error(msg: => String, t: Throwable) {
     if (slf4jLogger.isErrorEnabled) slf4jLogger.error(msg, t)
   }
 
@@ -66,7 +72,7 @@ trait Logger {
    * Log a message with WARN level.
    * @param msg The message to be logged
    */
-  @elidable(WARNING) def warn(msg: => String) {
+  def warn(msg: => String) {
     if (slf4jLogger.isWarnEnabled) slf4jLogger warn msg
   }
 
@@ -75,7 +81,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  @elidable(WARNING) def warn(msg: => String, t: Throwable) {
+  def warn(msg: => String, t: Throwable) {
     if (slf4jLogger.isWarnEnabled) slf4jLogger.warn(msg, t)
   }
 
@@ -83,7 +89,7 @@ trait Logger {
    * Log a message with INFO level.
    * @param msg The message to be logged
    */
-  @elidable(INFO) def info(msg: => String) {
+  def info(msg: => String) {
     if (slf4jLogger.isInfoEnabled) slf4jLogger info msg
   }
 
@@ -92,7 +98,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  @elidable(INFO) def info(msg: => String, t: Throwable) {
+  def info(msg: => String, t: Throwable) {
     if (slf4jLogger.isInfoEnabled) slf4jLogger.info(msg, t)
   }
 
@@ -100,7 +106,7 @@ trait Logger {
    * Log a message with DEBUG level.
    * @param msg The message to be logged
    */
- @elidable(FINER) def debug(msg: => String) {
+  def debug(msg: => String) {
     if (slf4jLogger.isDebugEnabled) slf4jLogger debug msg
   }
 
@@ -109,7 +115,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  @elidable(FINER) def debug(msg: => String, t: Throwable) {
+  def debug(msg: => String, t: Throwable) {
     if (slf4jLogger.isDebugEnabled) slf4jLogger.debug(msg, t)
   }
 
@@ -117,7 +123,7 @@ trait Logger {
    * Log a message with TRACE level.
    * @param msg The message to be logged
    */
-  @elidable(FINEST) def trace(msg: => String) {
+  def trace(msg: => String) {
     if (slf4jLogger.isTraceEnabled) slf4jLogger trace msg
   }
 
@@ -126,7 +132,7 @@ trait Logger {
    * @param msg The message to be logged
    * @param t The Throwable to be logged
    */
-  @elidable(FINEST) def trace(msg: => String, t: Throwable) {
+  def trace(msg: => String, t: Throwable) {
     if (slf4jLogger.isTraceEnabled) slf4jLogger.trace(msg, t)
   }
 

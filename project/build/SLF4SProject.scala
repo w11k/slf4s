@@ -1,15 +1,7 @@
-/**
- * Copyright (c) 2009-2010 WeigleWilczek and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- */
 import com.weiglewilczek.bnd4sbt._
 import sbt._
 
 class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
-
 
   // ===================================================================================================================
   // Dependencies
@@ -22,8 +14,15 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   val slf4jApi = "org.slf4j" % "slf4j-api" % Slf4jVersion withSources
 
   // Test
-  val specs = "org.scala-tools.testing" %% "specs" % "1.6.6" % "test" withSources
-  val mockito = "org.mockito" % "mockito-all" % "1.8.5" % "test" withSources
+  val (specs, mockito) = {
+    def specs(version: String) = ("org.scala-tools.testing" %% "specs" % version % "test").withSources
+    def mockito(version: String) = ("org.mockito" % "mockito-all" % version % "test").withSources
+    buildScalaVersion match {
+      case "2.8.0" => specs("1.6.5") -> mockito("1.8.4")
+      case "2.8.1" => specs("1.6.7") -> mockito("1.8.5")
+      case _ => error("No clue what versions for specs and mockito to use!")
+    }
+  }
   val slf4jSimple = "org.slf4j" % "slf4j-simple" % Slf4jVersion % "test"
 
   // ===================================================================================================================
@@ -46,11 +45,17 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   import ExecutionEnvironment._
   override def bndBundleVendor = Some("WeigleWilczek")
   override def bndBundleLicense =
-    Some("Eclipse Public License v1.0 (http://www.eclipse.org/legal/epl-v10.html)")
+    Some("Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0.html)")
   override def bndExecutionEnvironment = Set(Java5, Java6)
   override def bndExportPackage =
     "com.weiglewilczek.slf4s;version=\"%s\"".format(projectVersion.value) :: Nil
+  override def bndImportPackage =
+    "org.slf4j;version=\"[1.5,2.0)\"" :: super.bndImportPackage.toList
   override def bndVersionPolicy = Some("[$(@),$(version;=+;$(@)))")
 
-override def compileOptions = super.compileOptions ++ compileOptions("-Xelide-below", "-1")
+  // ===================================================================================================================
+  // Misc
+  // ===================================================================================================================
+
+  override def testCompileOptions = super.testCompileOptions ++ compileOptions("-Xelide-below", "-1")
 }
