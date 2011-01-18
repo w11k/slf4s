@@ -31,8 +31,8 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
 
   override def managedStyle = ManagedStyle.Maven
   Credentials(Path.userHome / ".ivy2" / ".credentials", log)
-//  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
-  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/snapshots/"
+  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
+//  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/snapshots/"
 //  lazy val publishTo = Resolver.file("Local Test Repository", Path fileProperty "java.io.tmpdir" asFile)
   override def packageSrcJar = defaultJarPath("-sources.jar")
   lazy val sourceArtifact = Artifact.sources(artifactID)
