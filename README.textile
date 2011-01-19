@@ -1,4 +1,6 @@
-SLF4S (Simple Logging Facade for Scala) is a thin "Scala":http://www.scala-lang.org wrapper around SLF4J offering the following features:
+h1. SLF4S
+
+SLF4S (Simple Logging Facade for Scala) is a thin "Scala":http://www.scala-lang.org wrapper around "SLF4J":http://www.slf4j.org offering the following features:
 
 * _Logging_ trait to easily mix in a _Logger_ initialized with the class name
 * By-name parameters on log methods for better performance
