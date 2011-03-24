@@ -1,7 +1,7 @@
 import com.weiglewilczek.bnd4sbt._
 import sbt._
 
-class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
+class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin with IdeaProject {
 
   // ===================================================================================================================
   // Dependencies
@@ -50,7 +50,7 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   override def bndExportPackage =
     "com.weiglewilczek.slf4s;version=\"%s\"".format(projectVersion.value) :: Nil
   override def bndImportPackage =
-    "org.slf4j;version=\"[1.5,2.0)\"" :: super.bndImportPackage.toList
+    "org.slf4j;version=\"[1.6,2.0)\"" :: "org.slf4j.spi;version=\"[1.6,2.0)\"" ::super.bndImportPackage.toList
   override def bndVersionPolicy = Some("[$(@),$(version;=+;$(@)))")
 
   // ===================================================================================================================

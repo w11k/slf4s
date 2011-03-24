@@ -14,4 +14,13 @@ class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
   // ===================================================================================================================
 
   val bnd4sbt = "com.weiglewilczek.bnd4sbt" % "bnd4sbt" % "1.0.1"
+
+
+  // ===================================================================================================================
+  // IDE support
+  // ===================================================================================================================
+
+  val sbtIdeaRepo = "sbt-idea-repo" at "http://mpeltonen.github.com/maven/"
+  val sbtIdea = "com.github.mpeltonen" % "sbt-idea-plugin" % "0.4.0"
+
 }

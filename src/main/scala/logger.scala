@@ -16,6 +16,7 @@
 package com.weiglewilczek.slf4s
 
 import org.slf4j.{Logger => SLF4JLogger, LoggerFactory}
+import org.slf4j.spi.{LocationAwareLogger=>SLF4JLocationAwareLogger}
 
 /**
  * Factory for Loggers.
@@ -26,19 +27,27 @@ object Logger {
    * Creates a Logger named corresponding to the given class.
    * @param clazz Class used for the Logger's name. Must not be null!
    */
-  def apply(clazz: Class[_]) = {
+  def apply(clazz: Class[_]): Logger = {
     require(clazz != null, "clazz must not be null!")
-    new DefaultLogger(LoggerFactory getLogger clazz)
+    apply(LoggerFactory getLogger clazz)
   }
 
   /**
    * Creates a Logger with the given name.
    * @param name The Logger's name. Must not be null!
    */
-  def apply(name: String) = {
+  def apply(name: String): Logger = {
     require(name != null, "loggerName must not be null!")
-    new DefaultLogger(LoggerFactory getLogger name)
+    apply(LoggerFactory getLogger name)
   }
+
+  private[slf4s] def apply(slf4jLogger: SLF4JLogger): Logger = slf4jLogger match {
+    case locationAwareLogger: SLF4JLocationAwareLogger =>
+        new DefaultLocationAwareLogger(locationAwareLogger)
+    case _ =>
+        new DefaultLogger(slf4jLogger)
+  }
+
 }
 
 /**
@@ -143,3 +152,82 @@ trait Logger {
 }
 
 private[slf4s] class DefaultLogger(override protected val slf4jLogger: SLF4JLogger) extends Logger
+
+/**
+ * Thin wrapper for a location aware SLF4J logger making use of by-name parameters to improve performance.
+ *
+ * This implementation delegates to a location aware logger. For those SLF4J adapters that implement this
+ * interface, such as log4j and java.util.logging adapters, the code location reported will be that
+ * of the caller instead of the wrapper.
+ *
+ * Hint: Use the Logger object to choose the correct implementation automatically.
+ */
+trait LocationAwareLogger extends Logger {
+  import SLF4JLocationAwareLogger.{ERROR_INT, WARN_INT, INFO_INT, DEBUG_INT, TRACE_INT}
+
+  override def error(msg: => String) {
+    if (slf4jLogger.isErrorEnabled) log(ERROR_INT, msg)
+  }
+
+  override def error(msg: => String, t: Throwable) {
+    if (slf4jLogger.isErrorEnabled) log(ERROR_INT, msg, t)
+  }
+
+  override def warn(msg: => String) {
+    if (slf4jLogger.isWarnEnabled) log(WARN_INT, msg)
+  }
+
+  override def warn(msg: => String, t: Throwable) {
+    if (slf4jLogger.isWarnEnabled) log(WARN_INT, msg, t)
+  }
+
+  override def info(msg: => String) {
+    if (slf4jLogger.isInfoEnabled) log(INFO_INT, msg)
+  }
+
+  override def info(msg: => String, t: Throwable) {
+    if (slf4jLogger.isInfoEnabled) log(INFO_INT, msg, t)
+  }
+
+  override def debug(msg: => String) {
+    if (slf4jLogger.isDebugEnabled) log(DEBUG_INT, msg)
+  }
+
+  override def debug(msg: => String, t: Throwable) {
+    if (slf4jLogger.isDebugEnabled) log(DEBUG_INT, msg, t)
+  }
+
+  override def trace(msg: => String) {
+    if (slf4jLogger.isTraceEnabled) log(TRACE_INT, msg)
+  }
+
+  override def trace(msg: => String, t: Throwable) {
+    if (slf4jLogger.isTraceEnabled) log(TRACE_INT, msg, t)
+  }
+
+  override protected val slf4jLogger: SLF4JLocationAwareLogger
+
+  /**
+   * Get the wrapper class name for detection of the stackframe of the user code calling into the log framework.
+   *
+   * @return the fully qualified class name of the outermost logger wrapper class.
+   */
+  protected val fullyQualifiedWrapperClassName: String
+
+  private final def log(level: Int, msg: String) {
+    log(level, msg, null)
+  }
+
+  private final def log(level: Int, msg: String, throwable: Throwable) {
+    slf4jLogger.log(null, fullyQualifiedWrapperClassName, level, msg, null, throwable)
+  }
+
+}
+
+private[slf4s] final class DefaultLocationAwareLogger(protected val slf4jLogger: SLF4JLocationAwareLogger) extends LocationAwareLogger {
+  protected val fullyQualifiedWrapperClassName = DefaultLocationAwareLogger.FullyQualifiedWrapperClassName
+}
+
+private[slf4s] object DefaultLocationAwareLogger {
+  private val FullyQualifiedWrapperClassName = classOf[DefaultLocationAwareLogger].getName
+}
