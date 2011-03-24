@@ -259,7 +259,7 @@ class LocationAwareLoggerSpec extends Specification with Mockito {
 
   private def loggers = {
     val mockSLF4JLogger = mock[SLF4JLocationAwareLogger]
-    val logger = Logger(mockSLF4JLogger)
+    val logger = new DefaultLocationAwareLogger(mockSLF4JLogger)
     (logger, mockSLF4JLogger)
   }
 }

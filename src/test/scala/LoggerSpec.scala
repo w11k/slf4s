@@ -281,9 +281,7 @@ class LoggerSpec extends Specification with Mockito {
 
   private def loggers = {
     val mockSLF4JLogger = mock[SLF4JLogger]
-    val logger = new Logger {
-      override protected val slf4jLogger = mockSLF4JLogger
-    }
+    val logger = new DefaultLogger(mockSLF4JLogger)
     (logger, mockSLF4JLogger)
   }
 }

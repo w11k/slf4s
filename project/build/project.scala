@@ -1,7 +1,7 @@
 import com.weiglewilczek.bnd4sbt._
 import sbt._
 
-class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin with IdeaProject {
+class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
 
   // ===================================================================================================================
   // Dependencies
@@ -19,11 +19,12 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
     def mockito(version: String) = ("org.mockito" % "mockito-all" % version % "test").withSources
     buildScalaVersion match {
       case "2.8.0" => specs("1.6.5") -> mockito("1.8.4")
-      case "2.8.1" => specs("1.6.7") -> mockito("1.8.5")
+      case "2.8.1" => specs("1.6.7.1") -> mockito("1.8.5")
       case _ => error("No clue what versions for specs and mockito to use!")
     }
   }
-  val slf4jSimple = "org.slf4j" % "slf4j-simple" % Slf4jVersion % "test"
+//  val slf4jSimple = "org.slf4j" % "slf4j-simple" % Slf4jVersion % "test"
+  val logback = "ch.qos.logback" % "logback-classic" % "0.9.28" % "test"
 
   // ===================================================================================================================
   // Publishing
@@ -52,10 +53,4 @@ class SLF4SProject(info: ProjectInfo) extends DefaultProject(info) with BNDPlugi
   override def bndImportPackage =
     "org.slf4j;version=\"[1.6,2.0)\"" :: "org.slf4j.spi;version=\"[1.6,2.0)\"" ::super.bndImportPackage.toList
   override def bndVersionPolicy = Some("[$(@),$(version;=+;$(@)))")
-
-  // ===================================================================================================================
-  // Misc
-  // ===================================================================================================================
-
-  override def testCompileOptions = super.testCompileOptions ++ compileOptions("-Xelide-below", "-1")
 }

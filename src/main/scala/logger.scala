@@ -15,8 +15,8 @@
  */
 package com.weiglewilczek.slf4s
 
-import org.slf4j.{Logger => SLF4JLogger, LoggerFactory}
-import org.slf4j.spi.{LocationAwareLogger=>SLF4JLocationAwareLogger}
+import org.slf4j.{ Logger => Slf4jLogger, LoggerFactory }
+import org.slf4j.spi.{ LocationAwareLogger => Slf4jLocationAwareLogger }
 
 /**
  * Factory for Loggers.
@@ -29,7 +29,7 @@ object Logger {
    */
   def apply(clazz: Class[_]): Logger = {
     require(clazz != null, "clazz must not be null!")
-    apply(LoggerFactory getLogger clazz)
+    logger(LoggerFactory getLogger clazz)
   }
 
   /**
@@ -38,16 +38,15 @@ object Logger {
    */
   def apply(name: String): Logger = {
     require(name != null, "loggerName must not be null!")
-    apply(LoggerFactory getLogger name)
+    logger(LoggerFactory getLogger name)
   }
 
-  private[slf4s] def apply(slf4jLogger: SLF4JLogger): Logger = slf4jLogger match {
-    case locationAwareLogger: SLF4JLocationAwareLogger =>
-        new DefaultLocationAwareLogger(locationAwareLogger)
+  private def logger(slf4jLogger: Slf4jLogger): Logger = slf4jLogger match {
+    case locationAwareLogger: Slf4jLocationAwareLogger =>
+      new DefaultLocationAwareLogger(locationAwareLogger)
     case _ =>
-        new DefaultLogger(slf4jLogger)
+      new DefaultLogger(slf4jLogger)
   }
-
 }
 
 /**
@@ -148,10 +147,10 @@ trait Logger {
   /**
    * The wrapped SLF4J Logger.
    */
-  protected val slf4jLogger: SLF4JLogger
+  protected val slf4jLogger: Slf4jLogger
 }
 
-private[slf4s] class DefaultLogger(override protected val slf4jLogger: SLF4JLogger) extends Logger
+private[slf4s] class DefaultLogger(override protected val slf4jLogger: Slf4jLogger) extends Logger
 
 /**
  * Thin wrapper for a location aware SLF4J logger making use of by-name parameters to improve performance.
@@ -163,7 +162,7 @@ private[slf4s] class DefaultLogger(override protected val slf4jLogger: SLF4JLogg
  * Hint: Use the Logger object to choose the correct implementation automatically.
  */
 trait LocationAwareLogger extends Logger {
-  import SLF4JLocationAwareLogger.{ERROR_INT, WARN_INT, INFO_INT, DEBUG_INT, TRACE_INT}
+  import Slf4jLocationAwareLogger.{ERROR_INT, WARN_INT, INFO_INT, DEBUG_INT, TRACE_INT}
 
   override def error(msg: => String) {
     if (slf4jLogger.isErrorEnabled) log(ERROR_INT, msg)
@@ -205,29 +204,24 @@ trait LocationAwareLogger extends Logger {
     if (slf4jLogger.isTraceEnabled) log(TRACE_INT, msg, t)
   }
 
-  override protected val slf4jLogger: SLF4JLocationAwareLogger
+  override protected val slf4jLogger: Slf4jLocationAwareLogger
 
   /**
    * Get the wrapper class name for detection of the stackframe of the user code calling into the log framework.
-   *
-   * @return the fully qualified class name of the outermost logger wrapper class.
+   * @return The fully qualified class name of the outermost logger wrapper class.
    */
-  protected val fullyQualifiedWrapperClassName: String
+  protected val wrapperClassName: String
 
-  private final def log(level: Int, msg: String) {
-    log(level, msg, null)
+  private final def log(level: Int, msg: String, throwable: Throwable = null) {
+    slf4jLogger.log(null, wrapperClassName, level, msg, null, throwable)
   }
-
-  private final def log(level: Int, msg: String, throwable: Throwable) {
-    slf4jLogger.log(null, fullyQualifiedWrapperClassName, level, msg, null, throwable)
-  }
-
-}
-
-private[slf4s] final class DefaultLocationAwareLogger(protected val slf4jLogger: SLF4JLocationAwareLogger) extends LocationAwareLogger {
-  protected val fullyQualifiedWrapperClassName = DefaultLocationAwareLogger.FullyQualifiedWrapperClassName
 }
 
 private[slf4s] object DefaultLocationAwareLogger {
-  private val FullyQualifiedWrapperClassName = classOf[DefaultLocationAwareLogger].getName
+  private val WrapperClassName = classOf[DefaultLocationAwareLogger].getName
+}
+
+private[slf4s] final class DefaultLocationAwareLogger(override protected val slf4jLogger: Slf4jLocationAwareLogger)
+    extends LocationAwareLogger {
+  override protected val wrapperClassName = DefaultLocationAwareLogger.WrapperClassName
 }
