@@ -64,7 +64,7 @@ trait Logger {
    * @param msg The message to be logged
    */
   def error(msg: => String) {
-    if (slf4jLogger.isErrorEnabled) slf4jLogger error msg
+    if (slf4jLogger.isErrorEnabled) slf4jLogger.error(msg)
   }
 
   /**
@@ -81,7 +81,7 @@ trait Logger {
    * @param msg The message to be logged
    */
   def warn(msg: => String) {
-    if (slf4jLogger.isWarnEnabled) slf4jLogger warn msg
+    if (slf4jLogger.isWarnEnabled) slf4jLogger.warn(msg)
   }
 
   /**
@@ -98,7 +98,7 @@ trait Logger {
    * @param msg The message to be logged
    */
   def info(msg: => String) {
-    if (slf4jLogger.isInfoEnabled) slf4jLogger info msg
+    if (slf4jLogger.isInfoEnabled) slf4jLogger.info(msg)
   }
 
   /**
@@ -115,7 +115,7 @@ trait Logger {
    * @param msg The message to be logged
    */
   def debug(msg: => String) {
-    if (slf4jLogger.isDebugEnabled) slf4jLogger debug msg
+    if (slf4jLogger.isDebugEnabled) slf4jLogger.debug(msg)
   }
 
   /**
@@ -132,7 +132,7 @@ trait Logger {
    * @param msg The message to be logged
    */
   def trace(msg: => String) {
-    if (slf4jLogger.isTraceEnabled) slf4jLogger trace msg
+    if (slf4jLogger.isTraceEnabled) slf4jLogger.trace(msg)
   }
 
   /**

@@ -55,14 +55,14 @@ class LoggerSpec extends Specification with Mockito {
 
     "not call SLF4JLogger.error when error not enabled" in {
       slf4jLogger.isErrorEnabled returns false
-      logger error msg
+      logger.error(msg)
       there was no(slf4jLogger).error(Msg)
       evaluated mustBe false
     }
 
     "call SLF4JLogger.error when error enabled" in {
       slf4jLogger.isErrorEnabled returns true
-      logger error msg
+      logger.error(msg)
       there was one(slf4jLogger).error(Msg)
       evaluated mustBe true
     }
@@ -101,14 +101,14 @@ class LoggerSpec extends Specification with Mockito {
 
     "not call SLF4JLogger.warn when warn not enabled" in {
       slf4jLogger.isWarnEnabled returns false
-      logger warn msg
+      logger.warn(msg)
       there was no(slf4jLogger).warn(Msg)
       evaluated mustBe false
     }
 
     "call SLF4JLogger.warn when warn enabled" in {
       slf4jLogger.isWarnEnabled returns true
-      logger warn msg
+      logger.warn(msg)
       there was one(slf4jLogger).warn(Msg)
       evaluated mustBe true
     }
@@ -147,14 +147,14 @@ class LoggerSpec extends Specification with Mockito {
 
     "not call SLF4JLogger.info when info not enabled" in {
       slf4jLogger.isInfoEnabled returns false
-      logger info msg
+      logger.info(msg)
       there was no(slf4jLogger).info(Msg)
       evaluated mustBe false
     }
 
     "call SLF4JLogger.info when info enabled" in {
       slf4jLogger.isInfoEnabled returns true
-      logger info msg
+      logger.info(msg)
       there was one(slf4jLogger).info(Msg)
       evaluated mustBe true
     }
@@ -193,14 +193,14 @@ class LoggerSpec extends Specification with Mockito {
 
     "not call SLF4JLogger.debug when debug not enabled" in {
       slf4jLogger.isDebugEnabled returns false
-      logger debug msg
+      logger.debug(msg)
       there was no(slf4jLogger).debug(Msg)
       evaluated mustBe false
     }
 
     "call SLF4JLogger.debug when debug enabled" in {
       slf4jLogger.isDebugEnabled returns true
-      logger debug msg
+      logger.debug(msg)
       there was one(slf4jLogger).debug(Msg)
       evaluated mustBe true
     }
@@ -239,14 +239,14 @@ class LoggerSpec extends Specification with Mockito {
 
     "not call SLF4JLogger.trace when trace not enabled" in {
       slf4jLogger.isTraceEnabled returns false
-      logger trace msg
+      logger.trace(msg)
       there was no(slf4jLogger).trace(Msg)
       evaluated mustBe false
     }
 
     "call SLF4JLogger.trace when trace enabled" in {
       slf4jLogger.isTraceEnabled returns true
-      logger trace msg
+      logger.trace(msg)
       there was one(slf4jLogger).trace(Msg)
       evaluated mustBe true
     }
