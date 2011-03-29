@@ -7,6 +7,9 @@ class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
   // Dependencies
   // ===================================================================================================================
 
+  // Repositories
+  val sts = ScalaToolsSnapshots
+
   // Versions
   val Slf4jVersion = "1.6.1"
 
@@ -20,6 +23,7 @@ class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
     buildScalaVersion match {
       case "2.8.0" => specs("1.6.5") -> mockito("1.8.4")
       case "2.8.1" => specs("1.6.7.1") -> mockito("1.8.5")
+      case s if (s startsWith "2.9.0") => specs("1.6.8-SNAPSHOT") -> mockito("1.8.5")
       case _ => error("No clue what versions for specs and mockito to use!")
     }
   }
@@ -31,8 +35,8 @@ class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
 
   override def managedStyle = ManagedStyle.Maven
   Credentials(Path.userHome / ".ivy2" / ".credentials", log)
-//  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
-  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/snapshots/"
+  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
+//  lazy val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/snapshots/"
 //  lazy val publishTo = Resolver.file("Local Test Repository", Path fileProperty "java.io.tmpdir" asFile)
   override def packageSrcJar = defaultJarPath("-sources.jar")
   lazy val sourceArtifact = Artifact.sources(artifactID)
