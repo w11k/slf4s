@@ -14,16 +14,16 @@ The binaries are made available in the "Scala-Tools.org Maven repository":http:/
 
 h3. For SBT
 
-<pre><code>val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.3</code></pre>
+<pre><code>val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.4</code></pre>
 
-Supported Scala versions are 2.8.0 and 2.8.1.
+Supported Scala versions are 2.8.0, 2.8.1 and 2.9.0.RC1.
 
 h3. For Maven
 
 <pre><code><dependency>
   <groupId>com.weiglewilczek.slf4s</groupId>
   <artifactId>slf4s_2.8.1</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
 </dependency></code></pre>
 
 Replace the suffix of the artifactId to represent one of the supported Scala versions (see above).
