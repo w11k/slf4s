@@ -14,9 +14,9 @@ The binaries are made available in the "Scala-Tools.org Maven repository":http:/
 
 h3. For SBT
 
-<pre><code>val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.4</code></pre>
+<pre><code>val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.6</code></pre>
 
-Supported Scala versions are 2.8.0, 2.8.1, 2.9.0.RC1 and 2.9.0.RC2.
+Supported Scala versions are 2.8.1 and 2.9.0.
 
 h3. For Maven
 
@@ -37,4 +37,4 @@ Or create a _Logger_ explicitly:
 <pre><code>val logger = Logger("SomeSpecialName")</code></pre>
 
 When logging something, the argument will only be evaluated if the according log level is enabled:
-<pre><code>logger info "Created customer with id %s.".format(id)</code></pre>
+<pre><code>logger.info("Created customer with id " + id)</code></pre>
