@@ -8,7 +8,7 @@ class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
   // ===================================================================================================================
 
   // Repositories
-  val sts = ScalaToolsSnapshots
+//  val sts = ScalaToolsSnapshots
 
   // Versions
   val Slf4jVersion = "1.6.1"
@@ -23,7 +23,7 @@ class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
     buildScalaVersion match {
       case "2.8.0" => specs("1.6.5") -> mockito("1.8.4")
       case "2.8.1" => specs("1.6.7.1") -> mockito("1.8.5")
-      case s if (s startsWith "2.9.0") => specs("1.6.8-SNAPSHOT") -> mockito("1.8.5")
+      case s if (s startsWith "2.9.0") => specs("1.6.8") -> mockito("1.8.5")
       case _ => error("No clue what versions for specs and mockito to use!")
     }
   }
