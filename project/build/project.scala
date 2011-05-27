@@ -19,11 +19,12 @@ class Project(info: ProjectInfo) extends DefaultProject(info) with BNDPlugin {
   // Test
   val (specs, mockito) = {
     def specs(version: String) = ("org.scala-tools.testing" %% "specs" % version % "test").withSources
+    def specs_%(version: String, scalaVersion: String) = ("org.scala-tools.testing" % "specs_%s".format(scalaVersion) % version % "test").withSources
     def mockito(version: String) = ("org.mockito" % "mockito-all" % version % "test").withSources
     buildScalaVersion match {
       case "2.8.0" => specs("1.6.5") -> mockito("1.8.4")
       case "2.8.1" => specs("1.6.7.1") -> mockito("1.8.5")
-      case s if (s startsWith "2.9.0") => specs("1.6.8") -> mockito("1.8.5")
+      case s if s startsWith "2.9.0" => specs_%("1.6.8", "2.9.0") -> mockito("1.8.5")
       case _ => error("No clue what versions for specs and mockito to use!")
     }
   }
