@@ -1,12 +1,9 @@
 # SBT
+boot
 target
 lib_managed
 src_managed
-boot
 project/plugins/project
-
-# Maven
-target
 
 # Mac
 .DS_Store
@@ -18,15 +15,14 @@ target
 .project
 .scala_dependencies
 .settings
+.target
 
 # IntelliJ
 .idea
 *.iml
 *.ipr
 *.iws
+out
 
 # TextMate
 *.tmproj
-
-# Pax Runner
-runner

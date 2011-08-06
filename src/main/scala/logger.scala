@@ -60,6 +60,11 @@ trait Logger {
   lazy val name = slf4jLogger.getName
 
   /**
+   * The wrapped SLF4J Logger.
+   */
+  protected val slf4jLogger: Slf4jLogger
+
+  /**
    * Log a message with ERROR level.
    * @param msg The message to be logged
    */
@@ -143,14 +148,9 @@ trait Logger {
   def trace(msg: => String, t: Throwable) {
     if (slf4jLogger.isTraceEnabled) slf4jLogger.trace(msg, t)
   }
-
-  /**
-   * The wrapped SLF4J Logger.
-   */
-  protected val slf4jLogger: Slf4jLogger
 }
 
-private[slf4s] class DefaultLogger(override protected val slf4jLogger: Slf4jLogger) extends Logger
+private[slf4s] final class DefaultLogger(override protected val slf4jLogger: Slf4jLogger) extends Logger
 
 /**
  * Thin wrapper for a location aware SLF4J logger making use of by-name parameters to improve performance.
@@ -163,6 +163,14 @@ private[slf4s] class DefaultLogger(override protected val slf4jLogger: Slf4jLogg
  */
 trait LocationAwareLogger extends Logger {
   import Slf4jLocationAwareLogger.{ERROR_INT, WARN_INT, INFO_INT, DEBUG_INT, TRACE_INT}
+
+  override protected val slf4jLogger: Slf4jLocationAwareLogger
+
+  /**
+   * Get the wrapper class name for detection of the stackframe of the user code calling into the log framework.
+   * @return The fully qualified class name of the outermost logger wrapper class.
+   */
+  protected val wrapperClassName: String
 
   override def error(msg: => String) {
     if (slf4jLogger.isErrorEnabled) log(ERROR_INT, msg)
@@ -203,14 +211,6 @@ trait LocationAwareLogger extends Logger {
   override def trace(msg: => String, t: Throwable) {
     if (slf4jLogger.isTraceEnabled) log(TRACE_INT, msg, t)
   }
-
-  override protected val slf4jLogger: Slf4jLocationAwareLogger
-
-  /**
-   * Get the wrapper class name for detection of the stackframe of the user code calling into the log framework.
-   * @return The fully qualified class name of the outermost logger wrapper class.
-   */
-  protected val wrapperClassName: String
 
   private final def log(level: Int, msg: String, throwable: Throwable = null) {
     slf4jLogger.log(null, wrapperClassName, level, msg, null, throwable)
